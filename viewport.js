@@ -3,6 +3,9 @@
  * Copyright (c) 2016 Avi Jain
  */
 
+//polluting the global namespace
+var list;
+
 window.addEventListener('load', getAllIds);
 
 //Page Visibility API
@@ -20,7 +23,7 @@ if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and 
 
 function getAllIds(){
 	//push all ids into an array
-	var list = document.querySelectorAll('[id]');
+	list = document.querySelectorAll('[id]');
 	var counter = new Array(list.length).fill(0);
 	timerId = setInterval(startTimers.bind(null,list),1000);
 
@@ -39,20 +42,16 @@ function checkViewport(el) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     ) 
     {
-    	return true;
+    	console.log(el)
+    	//return true;
     	//counter[]++;
   	}
 
   //bigger than viewport
-	if (rect.bottom > window.innerHeight || document.documentElement.clientHeight && 
-			rect.top < 0) {
-
-	        cond = (viewport.bottom - field.top) > (viewport.height / 2) && (field.bottom - viewport.top) > (viewport.height / 2);
-
-	        if (cond) {
-	          return true;
-	        }
-
+  //needs better logic?
+	if (rect.height > window.innerHeight || document.documentElement.clientHeight) {
+			if((rect.top) < 0 && (rect.bottom)>document.documentElement.clientHeight)
+				console.log(el);
 	}	      
 
 	// Partially in viewport     
@@ -71,17 +70,22 @@ if (typeof document.addEventListener === "undefined" || typeof document[hidden] 
   console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
 } else {
   // Handle page visibility change   
-  document.addEventListener(visibilityChange, handleVisibilityChange, false);
+  document.addEventListener(visibilityChange, pauseTimer, false);
+  document.addEventListener(visibilityChange, resumeTimer, false);
 }
 
 function pauseTimer(){
   //check if tab is active or not. If inactive stop counters
   if(document.hidden){
   	clearInterval(timerId);
-  	clearInterval(reporter);
   } 
 }
-
+function resumeTimer(){
+  //check if tab is active or not. If active again, resume counters
+  if(!(document.hidden)){
+  	timerId = setInterval(startTimers.bind(null,list),1000);
+  } 
+}
 /*function returnTime(){
   return counter;
 }*/
