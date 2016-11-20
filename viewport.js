@@ -5,6 +5,7 @@
 
 //polluting the global namespace
 var list;
+var counter = new Array(); 
 
 window.addEventListener('load', getAllIds);
 
@@ -24,7 +25,15 @@ if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and 
 function getAllIds(){
 	//push all ids into an array
 	list = document.querySelectorAll('[id]');
-	var counter = new Array(list.length).fill(0);
+	//counter = new Array(list.length).fill(0);
+
+  list.forEach(function(element) 
+  {
+      //vp = checkViewport(element);
+      //Add all elements to an array of objects
+      counter.push({id:element.id, time:0});
+      
+  });
 	timerId = setInterval(startTimers.bind(null,list),1000);
 
 }
@@ -42,9 +51,15 @@ function checkViewport(el) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     ) 
     {
-    	console.log(el)
-    	//return true;
-    	//counter[]++;
+    	console.log(el);
+      //Increase viewtime count
+      counter.forEach(function(object) 
+      {
+        if (object.id == el.id)
+        {
+          object.time = object.time+1;
+        }
+      });
   	}
 
   //bigger than viewport
