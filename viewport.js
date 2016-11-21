@@ -1,5 +1,5 @@
 /*
- * Visibilitime
+ * Viewport Time
  * Copyright (c) 2016 Avi Jain
  */
 
@@ -51,7 +51,8 @@ function checkViewport(el) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     ) 
     {
-    	console.log(el);
+    	//console.log(el);
+      console.log(counter)
       //Increase viewtime count
       counter.forEach(function(object) 
       {
@@ -66,7 +67,14 @@ function checkViewport(el) {
   //needs better logic?
 	if (rect.height > window.innerHeight || document.documentElement.clientHeight) {
 			if((rect.top) < 0 && (rect.bottom)>document.documentElement.clientHeight)
-				console.log(el);
+				//console.log(el);
+        counter.forEach(function(object) 
+        {
+          if (object.id == el.id)
+          {
+            object.time = object.time+1;
+          }
+        });
 	}	      
 
 	// Partially in viewport     
