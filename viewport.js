@@ -1,13 +1,12 @@
 /*
  * Viewport Time
- * Copyright (c) 2016 Avi Jain
+ * Copyright (c) 2016
  */
 
 //polluting the global namespace
-var list;
-var counter = new Array(); 
+var counter = []
 
-window.addEventListener('load', getAllIds);
+// window.addEventListener('load', initialize);
 
 //Page Visibility API
 var hidden, visibilityChange; 
@@ -22,18 +21,30 @@ if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and 
   visibilityChange = "webkitvisibilitychange";
 }
 
-function getAllIds(){
-	//push all ids into an array
-	list = document.querySelectorAll('[id]');
-	//counter = new Array(list.length).fill(0);
+function initialize(list){
 
-  list.forEach(function(element) 
-  {
-      //vp = checkViewport(element);
-      //Add all elements to an array of objects
-      counter.push({id:element.id, time:0});
-      
-  });
+	if(arguments.length == 0){
+    list = document.querySelectorAll('[id]');
+    //console.log(list)
+    //here list is an HTML collection and many browsers don't support forEach over 
+    // NodeLists. Hence typecasting
+    Array.from(list).forEach(function(element) 
+      {
+          //Add all elements to an array of objects
+          counter.push({id:element.id, time:0});
+          
+      });
+  }
+
+  //Now list is an array and not a HTML Collection but since it's a passed argument
+  // it's an array-like object :/
+  else{
+    Array.from(list).forEach(function(id) 
+      {
+          counter.push({id:id, time:0});   
+      });
+  }
+  //console.log(list)
 	timerId = setInterval(startTimers.bind(null,list),1000);
 
 }
@@ -41,6 +52,7 @@ function getAllIds(){
 function checkViewport(el) {
 	//check if element is in viewport.If in viewport increase count
 	// http://www.w3schools.com/js/js_window.asp works for all "modern" browsers
+  //console.log(el);
 	var rect = el.getBoundingClientRect();
 
 	//entirely within viewport
@@ -51,8 +63,7 @@ function checkViewport(el) {
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     ) 
     {
-    	//console.log(el);
-      console.log(counter)
+      //console.log(counter)
       //Increase viewtime count
       counter.forEach(function(object) 
       {
@@ -66,7 +77,7 @@ function checkViewport(el) {
   //bigger than viewport
   //needs better logic?
 	if (rect.height > window.innerHeight || document.documentElement.clientHeight) {
-			if((rect.top) < 0 && (rect.bottom)>document.documentElement.clientHeight)
+			if((rect.top) < 0 && (rect.bottom)>document.documentElement.clientHeight){
 				//console.log(el);
         counter.forEach(function(object) 
         {
@@ -75,18 +86,22 @@ function checkViewport(el) {
             object.time = object.time+1;
           }
         });
+      }
 	}	      
 
 	// Partially in viewport     
     
 }
+
 function startTimers(list) {
-	//while(true){ An infinite loop hangs the browser
-		list.forEach(function(element) {
-			//vp = checkViewport(element);
+		Array.from(list).forEach(function(element) {
+      //If list is the list of all ids created through the script, it will be a HTML collection
+      // So, the next line need not be executed.
+      if(!(list instanceof NodeList)){
+        element = document.getElementById(element);
+      }
 	    checkViewport(element);
 		});
-	//}
 }
 
 if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
@@ -109,6 +124,7 @@ function resumeTimer(){
   	timerId = setInterval(startTimers.bind(null,list),1000);
   } 
 }
+
 /*function returnTime(){
   return counter;
 }*/

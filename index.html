@@ -61,7 +61,7 @@ li{
 <p>A simple script that counts the viewport time of sections of your page.</p>
 <p>If an array containing ids is not provided, it checks for all elements that have an id tag associated with them and
 counts number of seconds the element is in the viewport (while the tab is active)
-Updates count continuously each second and takes into account viewport change events such as zooming.</p>
+Updates count continuously each second and takes into account viewport change events such as zooming and minimizing the window.</p>
 
 Super small and no dependencies. Works on browsers that aren't regularly used in memes.
 </div>
@@ -81,10 +81,13 @@ Super small and no dependencies. Works on browsers that aren't regularly used in
 
 <script type="text/javascript" src="viewport.js"></script>
 <script type="text/javascript">
+	//For the script
+	var list = ['what','why','how','heading']
+	initialize(list);
+	//If you do not wish to pass a custom array, simply call
+	// initialize()
+	// For this page
 	var timerID;
-	function get(){
-
-	}
 	function count() {
 		counter.forEach(function(obj){
 			id = obj.id
