@@ -79,20 +79,22 @@ Super small and no dependencies. Works on browsers that aren't regularly used in
 </div>
 <!-- Github -->
 
-<script type="text/javascript" src="viewport.js"></script>
+<script type="text/javascript" src="/viewport.js"></script>
 <script type="text/javascript">
 	//For the script
-	var list = ['what','why','how','heading']
-	initialize(list);
+	var list = ['what','why','how','heading'];
+	var percent;
+
+	initialize(list, percent);
 	//If you do not wish to pass a custom array, simply call
 	// initialize()
 	// For this page
 	var timerID;
 	function count() {
 		counter.forEach(function(obj){
-			id = obj.id
-			el = document.querySelector('[data-field='+id+']> [class=timer]')
-			el.innerHTML = obj.time
+			id = obj.id ;
+			el = document.querySelector('[data-field='+id+']> [class=timer]') ;
+			el.innerHTML = obj.time ;
 		});
 	  	timerID = window.setTimeout(count, 1000);
 	}
