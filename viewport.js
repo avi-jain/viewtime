@@ -89,7 +89,7 @@ var windowWidth = parseInt((window.innerWidth || document.documentElement.client
 
   //bigger than viewport
   //needs better logic?
-  if (rect.height > windowHeight) {
+  else if (rect.height > windowHeight) {
     if(top < 0 && bottom > fraction*windowHeight){
         //console.log(el);
         counter.forEach(function(object) 
@@ -100,10 +100,21 @@ var windowWidth = parseInt((window.innerWidth || document.documentElement.client
           }
         });
       }
-    }       
+
+      else if(bottom > windowHeight && top < fraction*windowHeight){
+        //console.log(el);
+        counter.forEach(function(object)
+        {
+          if (object.id == el.id)
+          {
+            object.time = object.time+1;
+          }
+        });
+      }
+    }
 
   // Partially in viewport     
-  
+
 }
 
 function startTimers(list) {
