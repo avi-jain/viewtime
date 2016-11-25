@@ -1,0 +1,19 @@
+{
+  "name": "viewtime-example",
+  "version": "1.0.0",
+  "description": "A simple example of how the script can be used with an Express backend",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "viewport",
+    "viewtime"
+  ],
+  "author": "Avi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}

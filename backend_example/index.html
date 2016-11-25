@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<title>Viewport Time</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<link rel="icon" type="image/png" href="./favicon.png"/>
+
+<style>
+body {
+	font-family: "Lato",sans-serif;
+	font-weight: 400;
+	color:#fff;
+	background: #FF512F; /* fallback for old browsers */
+	background: -webkit-linear-gradient(to left, #FF512F , #DD2476); /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #FF512F , #DD2476); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        
+        
+}
+.content{
+	border: 3px solid white;
+	padding: 5em;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+	font-size: 1.2em
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: ;
+    padding: 10px;
+    color: #fff;
+    opacity: 0.9;
+    z-index: 10000000;
+    font-size: 1.2em;
+}
+li{
+	list-style-type: none;
+}
+</style>
+</head>
+<body>
+<div class="navbar output">
+    <ul>
+      <li data-time="0" data-field="heading">Heading: <span class="timer">0</span>s</li>
+      <li data-time="0" data-field="what">What: <span class="timer">0</span>s</li>
+      <li data-time="0" data-field="why">Why: <span class="timer">0</span>s</li>
+      <li data-time="0" data-field="how">How: <span class="timer">0</span>s</li>
+    </ul>
+  </div>
+<div class="content" id="heading">
+<h2>Viewport Time</h2>
+</div>
+<div class="content" id="what">
+<h3>What</h3>
+<p>A simple script that counts the viewport time of sections of your page.</p>
+<p>If an array containing ids is not provided, it checks for all elements that have an id tag associated with them and
+counts number of seconds the element is in the viewport (while the tab is active)
+Updates count continuously each second and takes into account viewport change events such as zooming and minimizing the window.</p>
+
+Super small and no dependencies. Works on browsers that aren't regularly used in memes.
+</div>
+<div class="content" id="why">
+<h3>Why</h3>
+<p>Online content such as news, medium articles, shocking top 10 clickbait buzzfeed articles, all seek to attract large shares of online attention by keeping their users engaged. A common challenge is to identify which parts / which type of content was preferred by users.</p>
+
+<p>Apart from analytics, this could also be used in fields like information retrieval. Eg. When using a text-based model like the tf-idf, giving higher weight to words belonging to hotter sections of the page. Where hotter means having a higher degree of viewport time :P </p>
+</div>
+
+<div class="content" id="how">
+<h3>How</h3>
+<p>Include the script in your page. Optionally provide it an array of ids.</p>
+<p>In order to persist data, provide a backend for it to retrieve/post the object containing the viewport time details of the elements. You could either use new objects for each visit to your page (and save with timestamps), or simply use a single cumulative object per page. You could post the object every x seconds.</p>
+</div>
+<!-- Github -->
+
+<script type="text/javascript" src="viewport.js"></script>
+<script type="text/javascript">
+	//For the script
+	var list = ['what','why','how','heading'];
+	var percent;
+
+	initialize(list, percent);
+	//If you do not wish to pass a custom array, simply call
+	// initialize()
+	// For this page
+	var timerID;
+	function count() {
+		counter.forEach(function(obj){
+			id = obj.id ;
+			el = document.querySelector('[data-field='+id+']> [class=timer]') ;
+			el.innerHTML = obj.time ;
+		});
+	  	timerID = window.setTimeout(count, 1000);
+	}
+	count();
+	// Add fetch to make calls every x seconds (x~5 ideally)
+	// To avoid polling, can make use of sockets
+</script>
+</body>
+</html>

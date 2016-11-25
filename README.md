@@ -14,7 +14,6 @@ Online content such as news, medium articles, shocking top 10 clickbait buzzfeed
 Apart from analytics, this can also be used in fields like information retrieval. Eg. When using the tf-idf model, giving higher weight to words belonging to hotter sections of the page. Where hotter means having a higher degree of viewport time :P
 
 ###To-do -
-* Add option to take in an array of ids.
 * Provide an example which specifies a backend output location for the data and store it.
 * Add option to remove insights from 'Bouncers' (as they affect the time count of the top part of page only)
 * A generateReport option which takes a snapshot of the whole page and perhaps outputs a viewport time graph after normalizing the raw data from the object
