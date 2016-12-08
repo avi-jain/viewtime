@@ -15,5 +15,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.15.2",
+    "csv": "^1.1.0",
+    "fast-csv": "^2.3.0"
   }
 }

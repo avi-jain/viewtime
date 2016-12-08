@@ -7,6 +7,42 @@
 var counter = [];
 var fraction = 1;
 
+//Makes a call to fetch counter from specified endpoint
+//Creates a counter array if not able to fetch it
+//NOT MAKING USE OF THIS YET
+function getCounter(){
+  // Add fetch to make calls every x seconds (x~5 ideally)
+  // To avoid polling, can make use of sockets
+  var getOptions = {
+
+  }
+  fetch(url)
+  .then(checkStatus)
+  .then(getJSON)
+  .then(function(){
+
+  })
+  .catch(function(err){
+
+  });
+}
+function postCounter(){
+  var postOptions = {
+    method: 'POST', 
+    mode: 'CORS', 
+    headers: new Headers({
+      'Content-Type': 'text/csv'
+    }),
+    body: counter
+  }
+  fetch('http://localhost:5000/postcounter',postOptions)
+  .then(function(response) {
+    console.log('status: ', response.status);
+  });
+}
+//var counter = getCounter(url);
+
+
 // window.addEventListener('load', initialize);
 
 //Page Visibility API
@@ -33,12 +69,14 @@ function initialize(list, percent){
     //console.log(list)
     //here list is an HTML collection and many browsers don't support forEach over 
     // NodeLists. Hence typecasting
+    
     Array.from(list).forEach(function(element) 
     {
           //Add all elements to an array of objects
+          //Push only if not in counter
           counter.push({id:element.id, time:0});
           
-        });
+    });
   }
 
   //Now list is an array and not a HTML Collection but since it's a passed argument
@@ -46,6 +84,7 @@ function initialize(list, percent){
   else{
     Array.from(list).forEach(function(id) 
     {
+      //Push only if not in counter
       counter.push({id:id, time:0});   
     });
   }
@@ -89,7 +128,7 @@ var windowWidth = parseInt((window.innerWidth || document.documentElement.client
 
   //bigger than viewport
   //needs better logic?
-  if (rect.height > windowHeight) {
+  else if (rect.height > windowHeight) {
     if(top < 0 && bottom > fraction*windowHeight){
         //console.log(el);
         counter.forEach(function(object) 
@@ -100,7 +139,19 @@ var windowWidth = parseInt((window.innerWidth || document.documentElement.client
           }
         });
       }
-    }       
+
+      else if(bottom > windowHeight && top < fraction*windowHeight){
+        //console.log(el);
+        counter.forEach(function(object)
+        {
+          if (object.id == el.id)
+          {
+            object.time = object.time+1;
+          }
+        });
+      }
+    }
+   
 
   // Partially in viewport     
   
@@ -138,6 +189,8 @@ function resumeTimer(){
   } 
 }
 
+//overwrites file if present
+window.setInterval(postCounter, 5000);
 /*function returnTime(){
   return counter;
 }*/
