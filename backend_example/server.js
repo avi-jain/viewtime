@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // Send the example file
 app.get("/", function(req, res) {
@@ -22,7 +22,7 @@ app.get("/", function(req, res) {
 
 app.post("/postcounter", function(req, res) {
 	console.log(req.body) 
-	fs.writeFile('data/counter.csv',req.body,function (err) {
+	fs.writeFile('data/counter.json',JSON.stringify(req.body),function (err) {
 	  if (err) {
 	    console.log('File either not saved or corrupted file saved.' + err);
 	    res.send("Not Saved").status(500);

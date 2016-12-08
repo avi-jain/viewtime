@@ -31,9 +31,9 @@ function postCounter(){
     method: 'POST', 
     mode: 'CORS', 
     headers: new Headers({
-      'Content-Type': 'text/csv'
+      'Content-Type': 'application/json'
     }),
-    body: counter
+    body: JSON.stringify(counter)
   }
   fetch('http://localhost:5000/postcounter',postOptions)
   .then(function(response) {
